@@ -1,0 +1,14 @@
+
+public class MovieShowing {
+	String title;
+	int numSeats;
+	//Need some time/date variable.
+	
+	public MovieShowing(String title, int numSeats) {
+		this.title = title;
+		this.numSeats = numSeats;
+		
+	}
+	
+	
+}
