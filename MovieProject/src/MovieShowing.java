@@ -23,7 +23,7 @@ public class MovieShowing {
 	
 	//Buy a showing, give ticket to customer
 	public void buyShowing() {
-		
+		numSeats--;
 	}
 	
 	

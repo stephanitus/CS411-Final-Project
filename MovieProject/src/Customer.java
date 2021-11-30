@@ -11,10 +11,17 @@ public class Customer {
 		this.profile = new CustomerProfile();
 	}
 	
-	public void watchMovie() {
-		//Update customerProfile information based on movie info
+	//Cancel from any active tickets
+	public void cancelTicket(int ticketID) {
+		profile.activeTickets.remove(ticketID);
+	
 	}
-	public void cancelTicket() {
+	
+
+	
+	//update profile with ticket data
+	public void updateProfile(MovieTicket ticket) {
+		profile.updateProfile(ticket);
 		
 	}
 	
