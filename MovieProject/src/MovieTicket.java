@@ -10,7 +10,6 @@ public class MovieTicket {
 	public MovieTicket(MovieShowing showing) {
 		this.movieTitle = showing.title;
 		//this.date = showing.date; Need time/date of some sort
-		this.price = showing.price;
 		this.length = showing.movieLength;
 	}
 	

@@ -1,3 +1,4 @@
+import java.util.Date;
 
 public class MovieShowing {
 	
@@ -5,20 +6,21 @@ public class MovieShowing {
 	String genre;
 	int numSeats;
 	int movieLength;
-	int price;
+	Date date;
 	//time; Need some time/date variable.
 	MovieTicket[] tickets = new MovieTicket[numSeats]; //Perhaps have multiple ticket types per movie
 	
 	//Constructor
-	public MovieShowing(String title, int numSeats, int cost) {
+	public MovieShowing(String title, int numSeats, Date date, int movieLength, String movieGenre) {
 		this.title = title;
 		this.numSeats = numSeats;
-		this.price = cost;
+		this.genre = movieGenre;
+		this.date = date;
+		this.movieLength = movieLength;
+
 		for (int i = 0; i < numSeats; i++) {
 			tickets[i] = new MovieTicket(this);
 		}
-		
-		
 	}
 	
 	//Buy a showing, give ticket to customer
