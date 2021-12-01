@@ -39,12 +39,13 @@ public class Main {
 				System.out.println("Login Complete! Welcome");
 			}else{
 				//User doesn't exist
+				System.out.println("User ID does not exist");
 			}
 		}else{
 			System.out.println("Invalid input");
 			//TBD
 		}
-		
+
 		//User option dialogue
 		//Print movie showings(extends purchase movie ticket), show purchased tickets
 		System.out.println("What would you like to do?\n1. Browse Movie Showings\n2. Show Purchased Tickets\n3. Show User Info");

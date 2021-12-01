@@ -17,17 +17,10 @@ public class MovieShowing {
 		this.genre = movieGenre;
 		this.date = date;
 		this.movieLength = movieLength;
-
-		for (int i = 0; i < numSeats; i++) {
-			tickets[i] = new MovieTicket(this);
-		}
 	}
 	
 	//Buy a showing, give ticket to customer
 	public void buyShowing() {
 		numSeats--;
 	}
-	
-	
-	
 }

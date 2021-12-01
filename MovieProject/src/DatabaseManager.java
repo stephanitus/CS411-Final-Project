@@ -2,7 +2,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -13,7 +13,7 @@ public class DatabaseManager {
     private ArrayList<MovieShowing> movieShowings;
     private ArrayList<Customer> customers;
 
-    DatabaseManager() {
+    public DatabaseManager() {
         this.movieShowings = new ArrayList<>();
         this.customers = new ArrayList<>();
         try{
@@ -38,7 +38,8 @@ public class DatabaseManager {
             int numSeats = Integer.parseInt(reader.nextLine().strip());
             Date date;
             try{
-                date = DateFormat.getDateInstance().parse(reader.nextLine().strip());
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                date = formatter.parse(reader.nextLine().strip());
             }catch(Exception e){
                 System.out.println("date error");
                 date = new Date();
@@ -57,6 +58,7 @@ public class DatabaseManager {
         while(reader.hasNext()){
             //Read in 6 lines
             String username = reader.nextLine().strip();
+            long userID = Long.parseLong(reader.nextLine().strip());
             String creditCardNumber = reader.nextLine().strip();
             float hoursWatched = Float.parseFloat(reader.nextLine().strip());
             int genresWatched = Integer.parseInt(reader.nextLine().strip());
@@ -64,7 +66,7 @@ public class DatabaseManager {
             int pendingShowings = Integer.parseInt(reader.nextLine().strip());
 
             //Add customer to memory
-            Customer customer = new Customer(username, creditCardNumber, hoursWatched, genresWatched, loyaltyPoints, pendingShowings);
+            Customer customer = new Customer(username, userID, creditCardNumber, hoursWatched, genresWatched, loyaltyPoints, pendingShowings);
             customers.add(customer);
         }
         reader.close();
@@ -89,7 +91,11 @@ public class DatabaseManager {
      * @return Boolean
      */
     public Boolean userExists(long ID){
-        return true;
+        for (Customer c : customers){
+            if (c.getUserID() == ID)
+                return true;
+        }
+        return false;
     }
 
     /***************
