@@ -2,16 +2,24 @@
 public class MovieTicket {
 	
 	MovieShowing showing;
-	String movieTitle;
-	//need date/time of some sort
-	int price;
-	int length;
+	Customer owner;
 	
-	public MovieTicket(MovieShowing showing) {
-		this.movieTitle = showing.title;
-		//this.date = showing.date; Need time/date of some sort
-		this.length = showing.movieLength;
+	public MovieTicket(MovieShowing showing, Customer owner) {
+		this.showing = showing;
+		this.owner = owner;
 	}
-	
-	
+
+	public Customer getOwner(){
+		return owner;
+	}
+
+	public MovieShowing getShowing(){
+		return showing;
+	}
+
+	public String toDataString(){
+		return 	showing.getTitle() + "\n" + 
+				showing.getShowingDate() + "\n" +
+				owner.getUserID() + "\n";
+	}
 }

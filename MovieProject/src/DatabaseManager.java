@@ -3,7 +3,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.lang.StringBuffer;
 import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.FileNotFoundException;
 
 //Movie Showings, movie tickets, customers`
@@ -11,10 +15,12 @@ import java.io.FileNotFoundException;
 public class DatabaseManager {
 
     private ArrayList<MovieShowing> movieShowings;
+    private ArrayList<MovieTicket> movieTickets;
     private ArrayList<Customer> customers;
 
     public DatabaseManager() {
         this.movieShowings = new ArrayList<>();
+        this.movieTickets = new ArrayList<>();
         this.customers = new ArrayList<>();
         try{
             readAll();
@@ -37,18 +43,22 @@ public class DatabaseManager {
             String title = reader.nextLine().strip();
             int numSeats = Integer.parseInt(reader.nextLine().strip());
             Date date;
+            String datestring;
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mmaa");
             try{
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 date = formatter.parse(reader.nextLine().strip());
+                datestring = formatter.format(date);
             }catch(Exception e){
                 System.out.println("date error");
                 date = new Date();
+                datestring = formatter.format(date);
             }
             int movieLength = Integer.parseInt(reader.nextLine().strip());
             String movieGenre = reader.nextLine().strip();
+            float price = Float.parseFloat(reader.nextLine().strip());
 
             //Add showing to memory
-            MovieShowing showing = new MovieShowing(title, numSeats, date, movieLength, movieGenre);
+            MovieShowing showing = new MovieShowing(title, numSeats, datestring, movieLength, movieGenre, price);
             this.movieShowings.add(showing);
         }
         reader.close();
@@ -71,6 +81,58 @@ public class DatabaseManager {
         }
         reader.close();
 
+        // Load movie ticket table from disk
+        reader = new Scanner(new File("./data/movietickets.txt"));
+        while(reader.hasNext()){
+            // Read in 3 lines
+            String title = reader.nextLine().strip();
+            String date = reader.nextLine().strip();
+            // Locate movie showing
+            MovieShowing showing = null;
+            for(MovieShowing s : movieShowings){
+                if(s.getTitle().equals(title) && s.getShowingDate().equals(date)){
+                    showing = s;
+                }
+            }
+            long userID = Long.parseLong(reader.nextLine().strip());
+            // Locate ticket owner
+            Customer owner = getCustomer(userID);
+            // Create ticket
+            MovieTicket ticket = new MovieTicket(showing, owner);
+            movieTickets.add(ticket);
+        }
+        reader.close();
+    }
+
+    public void writeChanges(){
+        // Write changes to disk
+        BufferedWriter writer;
+        try{
+            // Customers
+            writer = new BufferedWriter(new FileWriter("./data/customers.txt"));
+            writer.write("");
+            for(Customer c : customers){
+                writer.append(c.toDataString());
+            }
+            writer.close();
+            
+            //Movie Showings
+            writer = new BufferedWriter(new FileWriter("./data/movieshowings.txt"));
+            writer.write("");
+            for(MovieShowing s : movieShowings){
+                writer.append(s.toDataString());
+            }
+            writer.close();
+
+            writer = new BufferedWriter(new FileWriter("./data/movietickets.txt"));
+            writer.write("");
+            for(MovieTicket t : movieTickets){
+                writer.append(t.toDataString());
+            }
+            writer.close();
+        }catch(IOException e){
+            System.out.println("Write failure");
+        }
     }
 
     /***************
@@ -98,6 +160,22 @@ public class DatabaseManager {
         return false;
     }
 
+    public Customer getCustomer(long ID){
+        for (Customer c : customers){
+            if (c.getUserID() == ID)
+                return c;
+        }
+        return null;
+    }
+
+    public MovieShowing getMovieShowing(int i){
+        return movieShowings.get(i-1);
+    }
+
+    public List<MovieTicket> getMovieTickets(){
+        return movieTickets;
+    }
+
     /***************
         Mutators
     ***************/
@@ -114,7 +192,11 @@ public class DatabaseManager {
      * Adds new customer to database
      * @param ID
      */
-    public void addNewCustomer(long ID){
-        //TBI
+    public void addNewCustomer(Customer c){
+        customers.add(c);
+    }
+
+    public void addMovieTicket(MovieTicket ticket){
+        movieTickets.add(ticket);
     }
 }
