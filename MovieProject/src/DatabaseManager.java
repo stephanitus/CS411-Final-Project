@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 import java.text.SimpleDateFormat;
-import java.lang.StringBuffer;
 import java.io.File;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -25,7 +24,7 @@ public class DatabaseManager {
         try{
             readAll();
         }catch(FileNotFoundException e){
-            System.out.println("Error loading file");
+            System.out.println(e);
         }
     }
 
@@ -37,7 +36,7 @@ public class DatabaseManager {
      */
     private void readAll() throws FileNotFoundException{
         // Load movie showings from disk
-        Scanner reader = new Scanner(new File("./data/movieshowings.txt"));
+        Scanner reader = new Scanner(new File("./src/data/movieshowings.txt"));
         while(reader.hasNext()){
             //Read in 5 lines
             String title = reader.nextLine().strip();
@@ -64,7 +63,7 @@ public class DatabaseManager {
         reader.close();
         
         // Load customer info from disk
-        reader = new Scanner(new File("./data/customers.txt"));
+        reader = new Scanner(new File("./src/data/customers.txt"));
         while(reader.hasNext()){
             //Read in 6 lines
             String username = reader.nextLine().strip();
@@ -82,7 +81,7 @@ public class DatabaseManager {
         reader.close();
 
         // Load movie ticket table from disk
-        reader = new Scanner(new File("./data/movietickets.txt"));
+        reader = new Scanner(new File("./src/data/movietickets.txt"));
         while(reader.hasNext()){
             // Read in 3 lines
             String title = reader.nextLine().strip();
@@ -109,7 +108,7 @@ public class DatabaseManager {
         BufferedWriter writer;
         try{
             // Customers
-            writer = new BufferedWriter(new FileWriter("./data/customers.txt"));
+            writer = new BufferedWriter(new FileWriter("./src/data/customers.txt"));
             writer.write("");
             for(Customer c : customers){
                 writer.append(c.toDataString());
@@ -117,14 +116,14 @@ public class DatabaseManager {
             writer.close();
             
             //Movie Showings
-            writer = new BufferedWriter(new FileWriter("./data/movieshowings.txt"));
+            writer = new BufferedWriter(new FileWriter("./src/data/movieshowings.txt"));
             writer.write("");
             for(MovieShowing s : movieShowings){
                 writer.append(s.toDataString());
             }
             writer.close();
 
-            writer = new BufferedWriter(new FileWriter("./data/movietickets.txt"));
+            writer = new BufferedWriter(new FileWriter("./src/data/movietickets.txt"));
             writer.write("");
             for(MovieTicket t : movieTickets){
                 writer.append(t.toDataString());
