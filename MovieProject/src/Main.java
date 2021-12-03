@@ -59,11 +59,13 @@ public class Main {
 			case 2:
 				//Load customer's purchased tickets
 				List<MovieTicket> tickets = db.getMovieTickets();
+				List<MovieTicket> customerTickets = new ArrayList<MovieTicket>();
 				if(!tickets.isEmpty()){
 					for(MovieTicket t : tickets){
 						if(t.getOwner().getUserID() == c.getUserID()){
 							//Print ticket info
 							System.out.println(t.getShowing().toString());
+							customerTickets.add(t);
 						}
 					}
 					
@@ -72,11 +74,14 @@ public class Main {
 					if(input != 0){
 						//Update customer pending ticket count and remove movieticket to database
 						if(0 < input && input <= db.getShowings().size()){
-							MovieTicket tickettoDelete = tickets.get(input-1);
+							MovieTicket tickettoDelete = customerTickets.get(input-1);
 							tickettoDelete.showing.seatCancelled();
 							c.cancelTicket(tickettoDelete);
 							db.removeMovieTicket(tickettoDelete);
-							db.removeFromTickets(tickettoDelete.getTicketID());
+							System.out.println(tickettoDelete.getTicketID());
+							db.writeChanges();
+							//db.removeFromTickets(tickettoDelete.getTicketID());
+							
 
 						}else{
 							System.out.println("Invalid selection");
@@ -134,7 +139,7 @@ public class Main {
 
 			//Give user ID and store in database
 			Random generator = new Random();
-			long customerID = 10000000 + generator.nextLong();
+			long customerID = 10000000 + generator.nextLong() + 9000000L;
 			Customer c = new Customer(username, customerID, creditCard, 0, 0, 0, 0);
 			db.addNewCustomer(c);
 			db.writeChanges();
@@ -150,7 +155,7 @@ public class Main {
 					//Login complete
 					Customer c = db.getCustomer(ID);
 					//db.addNewCustomer(c);
-					db.writeChanges();
+					//db.writeChanges();
 					System.out.println("Login Complete! Welcome");
 					return c;
 				}else{

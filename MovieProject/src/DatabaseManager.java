@@ -156,26 +156,28 @@ public class DatabaseManager {
     public void removeFromTickets(long ticketID) throws FileNotFoundException {
     	Scanner reader = new Scanner(new File("./data/movietickets.txt"));
     	try {
-    		BufferedWriter writer = new BufferedWriter(new FileWriter("./data/movieticketsupdated.txt"));
+    		BufferedWriter writer = new BufferedWriter(new FileWriter("./data/movietickets.txt"));
     	
         while(reader.hasNext()){
             // Read in ticket ID
         	long readTicketID = Long.parseLong(reader.nextLine().strip());
-        	//Skip next 2 lines if ID matches ID to delete
+        	//Skip next 3 lines if ID matches ID to delete
         	if (readTicketID == ticketID) {
-        		for (int i = 0; i < 2; i++) {
+        		for (int i = 0; i < 3; i++) {
         			reader.nextLine();
         		}
-        		readTicketID = Long.parseLong(reader.nextLine().strip());
+        		if (reader.hasNext()) {
+        			readTicketID = Long.parseLong(reader.nextLine().strip());
+        		}
         	}
         	if (reader.hasNext()) {
         	writer.append(String.valueOf(readTicketID));
             String title = reader.nextLine().strip();
-            writer.append(title);
+            writer.append("\n"+title);
             String date = reader.nextLine().strip();
-            writer.append(date);
+            writer.append("\n"+date);
             long userID = Long.parseLong(reader.nextLine().strip());
-            writer.append(String.valueOf(userID));
+            writer.append("\n"+String.valueOf(userID));
         	}
         }
         writer.close();
@@ -183,7 +185,8 @@ public class DatabaseManager {
     		System.out.println("Write failure");
     	}
     	//delete and rename movieTickets.txt file
-    	new File("./data/movietickets.txt").delete();
+    	File toDelete = new File("./data/movietickets.txt");
+    	toDelete.delete();
     	new File("./data/movieticketsupdated.txt").renameTo(new File("./data/movietickets.txt"));
         
 	        
@@ -237,7 +240,7 @@ public class DatabaseManager {
 
     /**
      * Adds movie showing to database
-     * @param showing
+     * @param MovieShowing
      */
     public void addShowing(MovieShowing showing){
         this.movieShowings.add(showing);
@@ -245,23 +248,30 @@ public class DatabaseManager {
 
     /**
      * Adds new customer to database
-     * @param ID
+     * @param Customer
      */
     public void addNewCustomer(Customer c){
         customers.add(c);
     }
     /**
      * Adds ticket to database
-     * @param ticket
+     * @param MovieTicket
      */
     public void addMovieTicket(MovieTicket ticket){
         movieTickets.add(ticket);
     }
     /**
      * Removes ticket from database
-     * @param ticket
+     * @param MovieTicket
      */
     public void removeMovieTicket(MovieTicket ticket) {
     	movieTickets.remove(ticket);
+    }
+    /**
+     * Removes a showing from database
+     * @param MovieShowing
+     */
+    public void removeShowing(MovieShowing showing) {
+    	movieShowings.remove(showing);
     }
 }
