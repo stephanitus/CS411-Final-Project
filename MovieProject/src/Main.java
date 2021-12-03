@@ -139,7 +139,11 @@ public class Main {
 
 			//Give user ID and store in database
 			Random generator = new Random();
-			long customerID = 10000000 + generator.nextLong() + 9000000L;
+
+		
+
+			long customerID = 10000000 + generator.nextLong() % 9000000L;
+
 			Customer c = new Customer(username, customerID, creditCard, 0, 0, 0, 0);
 			db.addNewCustomer(c);
 			db.writeChanges();
