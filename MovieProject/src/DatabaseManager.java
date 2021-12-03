@@ -16,6 +16,8 @@ public class DatabaseManager {
     private ArrayList<MovieShowing> movieShowings;
     private ArrayList<MovieTicket> movieTickets;
     private ArrayList<Customer> customers;
+    
+    private Customer activeUser;
 
     public DatabaseManager() {
         this.movieShowings = new ArrayList<>();
@@ -174,6 +176,10 @@ public class DatabaseManager {
     public List<MovieTicket> getMovieTickets(){
         return movieTickets;
     }
+    
+    public Customer getActiveUser() {
+    	return activeUser;
+    }
 
     /***************
         Mutators
@@ -197,5 +203,9 @@ public class DatabaseManager {
 
     public void addMovieTicket(MovieTicket ticket){
         movieTickets.add(ticket);
+    }
+    
+    public void setActiveUser(Customer user) {
+    	this.activeUser = user;
     }
 }

@@ -11,12 +11,12 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="241.0" text="View Purchased Tickets">
+      <Button mnemonicParsing="false" onAction="#switchToPurchasedTicketsScene" prefHeight="39.0" prefWidth="241.0" text="View Purchased Tickets">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="241.0" text="View Profile Info">
+      <Button mnemonicParsing="false" onAction="#switchToProfileInfoScene" prefHeight="39.0" prefWidth="241.0" text="View Profile Info">
          <font>
             <Font size="18.0" />
          </font>
