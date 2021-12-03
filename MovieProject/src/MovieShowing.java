@@ -19,8 +19,18 @@ public class MovieShowing {
 		this.price = price;
 	}
 
+	/**
+	 * Decrease the number of available seats in the movie showing in order to indicate a sold seat
+	 */
 	public void seatSold(){
 		this.numSeats--;
+	}
+	
+	/**
+	 * Increase the number of available seats in the movie showing in order to indicate a cancelled seat
+	 */
+	public void seatCancelled() {
+		this.numSeats++;
 	}
 	
 	/* ***********
@@ -29,6 +39,14 @@ public class MovieShowing {
 
 	public String getTitle(){
 		return this.title;
+	}
+	
+	public int getMovieLength() {
+		return this.movieLength;
+	}
+	
+	public float getPrice() {
+		return this.price;
 	}
 
 	public int getSeatsLeft(){

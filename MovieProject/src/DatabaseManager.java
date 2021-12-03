@@ -17,11 +17,13 @@ public class DatabaseManager {
     private ArrayList<MovieShowing> movieShowings;
     private ArrayList<MovieTicket> movieTickets;
     private ArrayList<Customer> customers;
+    private ArrayList<Administrator> administrators;
 
     public DatabaseManager() {
         this.movieShowings = new ArrayList<>();
         this.movieTickets = new ArrayList<>();
         this.customers = new ArrayList<>();
+        this.administrators = new ArrayList<>();
         try{
             readAll();
         }catch(FileNotFoundException e){
@@ -72,7 +74,7 @@ public class DatabaseManager {
             String creditCardNumber = reader.nextLine().strip();
             float hoursWatched = Float.parseFloat(reader.nextLine().strip());
             int genresWatched = Integer.parseInt(reader.nextLine().strip());
-            int loyaltyPoints = Integer.parseInt(reader.nextLine().strip());
+            float loyaltyPoints = Float.parseFloat(reader.nextLine().strip());
             int pendingShowings = Integer.parseInt(reader.nextLine().strip());
 
             //Add customer to memory
@@ -84,7 +86,8 @@ public class DatabaseManager {
         // Load movie ticket table from disk
         reader = new Scanner(new File("./data/movietickets.txt"));
         while(reader.hasNext()){
-            // Read in 3 lines
+            // Read in 4 lines
+        	long ticketID = Long.parseLong(reader.nextLine().strip()); 
             String title = reader.nextLine().strip();
             String date = reader.nextLine().strip();
             // Locate movie showing
@@ -98,8 +101,18 @@ public class DatabaseManager {
             // Locate ticket owner
             Customer owner = getCustomer(userID);
             // Create ticket
-            MovieTicket ticket = new MovieTicket(showing, owner);
+            MovieTicket ticket = new MovieTicket(ticketID, showing, owner);
             movieTickets.add(ticket);
+        }
+        reader = new Scanner(new File("./data/administrators.txt"));
+        while(reader.hasNext()){
+        	//Read in 2 lines
+            String username = reader.nextLine().strip();
+            long adminID = Long.parseLong(reader.nextLine().strip());
+            
+            //Add administrator to memory
+            Administrator administrator = new Administrator(username, adminID);
+            administrators.add(administrator);
         }
         reader.close();
     }
@@ -134,6 +147,48 @@ public class DatabaseManager {
             System.out.println("Write failure");
         }
     }
+    
+    /**
+     * Takes in one ticketID and removes the corresponding ticket from movietickets.txt
+     * @param ticketID
+     * @throws FileNotFoundException
+     */
+    public void removeFromTickets(long ticketID) throws FileNotFoundException {
+    	Scanner reader = new Scanner(new File("./data/movietickets.txt"));
+    	try {
+    		BufferedWriter writer = new BufferedWriter(new FileWriter("./data/movieticketsupdated.txt"));
+    	
+        while(reader.hasNext()){
+            // Read in ticket ID
+        	long readTicketID = Long.parseLong(reader.nextLine().strip());
+        	//Skip next 2 lines if ID matches ID to delete
+        	if (readTicketID == ticketID) {
+        		for (int i = 0; i < 2; i++) {
+        			reader.nextLine();
+        		}
+        		readTicketID = Long.parseLong(reader.nextLine().strip());
+        	}
+        	if (reader.hasNext()) {
+        	writer.append(String.valueOf(readTicketID));
+            String title = reader.nextLine().strip();
+            writer.append(title);
+            String date = reader.nextLine().strip();
+            writer.append(date);
+            long userID = Long.parseLong(reader.nextLine().strip());
+            writer.append(String.valueOf(userID));
+        	}
+        }
+        writer.close();
+    	} catch (IOException e) {
+    		System.out.println("Write failure");
+    	}
+    	//delete and rename movieTickets.txt file
+    	new File("./data/movietickets.txt").delete();
+    	new File("./data/movieticketsupdated.txt").renameTo(new File("./data/movietickets.txt"));
+        
+	        
+        }
+    
 
     /***************
         Accessors
@@ -195,8 +250,18 @@ public class DatabaseManager {
     public void addNewCustomer(Customer c){
         customers.add(c);
     }
-
+    /**
+     * Adds ticket to database
+     * @param ticket
+     */
     public void addMovieTicket(MovieTicket ticket){
         movieTickets.add(ticket);
+    }
+    /**
+     * Removes ticket from database
+     * @param ticket
+     */
+    public void removeMovieTicket(MovieTicket ticket) {
+    	movieTickets.remove(ticket);
     }
 }
