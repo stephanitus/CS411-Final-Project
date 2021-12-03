@@ -73,7 +73,7 @@ public class Main {
 					input = userInput.nextInt();
 					if(input != 0){
 						//Update customer pending ticket count and remove movieticket to database
-						if(0 < input && input <= customerTickets.size()){
+						if(0 < input && input <= db.getShowings().size()){
 							MovieTicket tickettoDelete = customerTickets.get(input-1);
 							tickettoDelete.showing.seatCancelled();
 							c.cancelTicket(tickettoDelete);
