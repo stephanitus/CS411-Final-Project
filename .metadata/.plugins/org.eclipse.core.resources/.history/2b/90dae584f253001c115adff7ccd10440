@@ -1,0 +1,15 @@
+
+public class Administrator {
+	String username;
+	long adminID;
+	
+	
+	
+	public Administrator() {
+		
+	}
+	
+	public void addNewShowing() {
+		
+	}
+}
