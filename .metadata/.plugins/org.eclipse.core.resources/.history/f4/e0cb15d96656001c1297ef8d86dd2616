@@ -56,7 +56,7 @@ public class DatabaseManager {
                 datestring = formatter.format(date);
             }
             int movieLength = Integer.parseInt(reader.nextLine().strip());
-            int movieGenre = Integer.parseInt(reader.nextLine().strip());
+            String movieGenre = reader.nextLine().strip();
             float price = Float.parseFloat(reader.nextLine().strip());
 
             //Add showing to memory
@@ -68,21 +68,12 @@ public class DatabaseManager {
         // Load customer info from disk
         reader = new Scanner(new File("./data/customers.txt"));
         while(reader.hasNext()){
-            //Read in 11 lines
+            //Read in 6 lines
             String username = reader.nextLine().strip();
             long userID = Long.parseLong(reader.nextLine().strip());
             String creditCardNumber = reader.nextLine().strip();
             float hoursWatched = Float.parseFloat(reader.nextLine().strip());
-            
-            //Number of movies watched per genre
-            int actionWatched = Integer.parseInt(reader.nextLine().strip());
-            int comedyWatched = Integer.parseInt(reader.nextLine().strip());
-            int dramaWatched = Integer.parseInt(reader.nextLine().strip());
-            int horrorWatched = Integer.parseInt(reader.nextLine().strip());
-            int scifiWatched = Integer.parseInt(reader.nextLine().strip());
-            
-            int[] genresWatched = {actionWatched, comedyWatched, dramaWatched, horrorWatched, scifiWatched};
-            
+            int genresWatched = Integer.parseInt(reader.nextLine().strip());
             float loyaltyPoints = Float.parseFloat(reader.nextLine().strip());
             int pendingShowings = Integer.parseInt(reader.nextLine().strip());
 
@@ -113,8 +104,6 @@ public class DatabaseManager {
             MovieTicket ticket = new MovieTicket(ticketID, showing, owner);
             movieTickets.add(ticket);
         }
-        
-        //Load administrator table from disk (maybe removed)
         reader = new Scanner(new File("./data/administrators.txt"));
         while(reader.hasNext()){
         	//Read in 2 lines
@@ -159,7 +148,6 @@ public class DatabaseManager {
         }
     }
     
-    //TO REMOVE
     /**
      * Takes in one ticketID and removes the corresponding ticket from movietickets.txt
      * @param ticketID

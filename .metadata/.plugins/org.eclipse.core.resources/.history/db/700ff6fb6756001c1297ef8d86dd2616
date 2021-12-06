@@ -73,8 +73,6 @@ public class DatabaseManager {
             long userID = Long.parseLong(reader.nextLine().strip());
             String creditCardNumber = reader.nextLine().strip();
             float hoursWatched = Float.parseFloat(reader.nextLine().strip());
-            
-            //Number of movies watched per genre
             int actionWatched = Integer.parseInt(reader.nextLine().strip());
             int comedyWatched = Integer.parseInt(reader.nextLine().strip());
             int dramaWatched = Integer.parseInt(reader.nextLine().strip());

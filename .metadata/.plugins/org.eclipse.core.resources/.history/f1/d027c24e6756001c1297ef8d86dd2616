@@ -151,11 +151,12 @@ public class Main {
 
 			//Give user ID and store in database
 			Random generator = new Random();
-			
+
+		
+
 			long customerID = 10000000 + generator.nextLong() % 9000000L;
-			
-			int[] genreList = new int[5];
-			Customer c = new Customer(username, customerID, creditCard, 0, genreList, 0, 0);
+
+			Customer c = new Customer(username, customerID, creditCard, 0, 0, 0, 0);
 			db.addNewCustomer(c);
 			db.writeChanges();
 			System.out.println("New user profile created!\n Your new user ID (Don't lose this): " + customerID);

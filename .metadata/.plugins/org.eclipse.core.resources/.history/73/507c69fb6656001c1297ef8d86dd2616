@@ -4,12 +4,12 @@ public class Customer {
 	long userID;
 	String paymentInfo;
 	float hoursWatched;
-	int[] genresWatched;
+	int genresWatched;
 	float loyaltyPoints;
 	int pendingShowings;
 	
 	//Create a new customer profile
-	public Customer(String username, long userID, String paymentInfo, float hoursWatched, int[] genresWatched, float loyaltyPoints, int pendingShowings) {
+	public Customer(String username, long userID, String paymentInfo, float hoursWatched, int genresWatched, float loyaltyPoints, int pendingShowings) {
 		this.username = username;
 		this.userID = userID;
 		this.paymentInfo = paymentInfo;
@@ -27,7 +27,6 @@ public class Customer {
 		pendingShowings++;
 		hoursWatched+=ticket.getShowing().getMovieLength();
 		loyaltyPoints+= ticket.getShowing().getPrice();
-		genresWatched[ticket.getShowing().getGenre()-1]++;
 	}
 	
 	/**
@@ -49,12 +48,8 @@ public class Customer {
 		return 	"Username: " + username + "\n" + 
 				"User ID: " + userID + "\n" + 
 				"Hours Watched: " + hoursWatched + "\n" + 
-				"Loyalty Points: " + loyaltyPoints + "\n" +
-				"Action Movies Watched: " + genresWatched[0] + "\n" +
-				"Comedy Movies Watched: " + genresWatched[1] + "\n" +
-				"Drama Movies Watched: " + genresWatched[2] + "\n" +
-				"Horror Movies Watched: " + genresWatched[3] + "\n" +
-				"Sci-fi Movies Watched: " + genresWatched[4] + "\n";
+				"Genres Watched: " + genresWatched + "\n" +
+				"Loyalty Points: " + loyaltyPoints + "\n";
 	}
 
 	public String toDataString(){
@@ -62,11 +57,7 @@ public class Customer {
 				userID + "\n" + 
 				paymentInfo + "\n" +
 				hoursWatched + "\n" +
-				genresWatched[0] + "\n" +
-				genresWatched[1] + "\n" +
-				genresWatched[2] + "\n" +
-				genresWatched[3] + "\n" +
-				genresWatched[4] + "\n" +
+				genresWatched + "\n" +
 				loyaltyPoints + "\n" +
 				pendingShowings + "\n";
 	}

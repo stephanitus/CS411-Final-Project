@@ -27,7 +27,6 @@ public class Customer {
 		pendingShowings++;
 		hoursWatched+=ticket.getShowing().getMovieLength();
 		loyaltyPoints+= ticket.getShowing().getPrice();
-		genresWatched[ticket.getShowing().getGenre()-1]++;
 	}
 	
 	/**

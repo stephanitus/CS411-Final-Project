@@ -74,10 +74,6 @@ public class MovieShowing {
 		return this.date;
 	}
 	
-	/**
-	 * Return the genre as an integer (1: action, 2: comedy, 3: drama, 4: horror, 5: scifi)
-	 * @return
-	 */
 	public int getGenre() {
 		return this.genre;
 	}

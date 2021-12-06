@@ -27,7 +27,6 @@ public class Customer {
 		pendingShowings++;
 		hoursWatched+=ticket.getShowing().getMovieLength();
 		loyaltyPoints+= ticket.getShowing().getPrice();
-		genresWatched[ticket.getShowing().getGenre()-1]++;
 	}
 	
 	/**
@@ -49,12 +48,8 @@ public class Customer {
 		return 	"Username: " + username + "\n" + 
 				"User ID: " + userID + "\n" + 
 				"Hours Watched: " + hoursWatched + "\n" + 
-				"Loyalty Points: " + loyaltyPoints + "\n" +
 				"Action Movies Watched: " + genresWatched[0] + "\n" +
-				"Comedy Movies Watched: " + genresWatched[1] + "\n" +
-				"Drama Movies Watched: " + genresWatched[2] + "\n" +
-				"Horror Movies Watched: " + genresWatched[3] + "\n" +
-				"Sci-fi Movies Watched: " + genresWatched[4] + "\n";
+				"Loyalty Points: " + loyaltyPoints + "\n";
 	}
 
 	public String toDataString(){

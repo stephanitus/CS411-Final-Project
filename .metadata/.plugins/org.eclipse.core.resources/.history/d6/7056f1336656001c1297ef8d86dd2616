@@ -3,14 +3,14 @@ import java.util.Date;
 public class MovieShowing {
 	
 	String title;
-	int genre;
+	String genre;
 	int numSeats;
 	int movieLength;
 	String date;
 	float price;
 	
 	//Constructor
-	public MovieShowing(String title, int numSeats, String date, int movieLength, int movieGenre, float price) {
+	public MovieShowing(String title, int numSeats, String date, int movieLength, String movieGenre, float price) {
 		this.title = title;
 		this.numSeats = numSeats;
 		this.genre = movieGenre;
@@ -42,14 +42,6 @@ public class MovieShowing {
 		this.price = newPrice;
 	}
 	
-	/**
-	 * Add a number of seats to the showing. Called by administrators.
-	 * @param numSeats
-	 */
-	public void addSeat(int numSeats) {
-		this.numSeats += numSeats;
-	}
-	
 	/* ***********
 	 * Accessors
 	 * ***********/
@@ -72,14 +64,6 @@ public class MovieShowing {
 
 	public String getShowingDate(){
 		return this.date;
-	}
-	
-	/**
-	 * Return the genre as an integer (1: action, 2: comedy, 3: drama, 4: horror, 5: scifi)
-	 * @return
-	 */
-	public int getGenre() {
-		return this.genre;
 	}
 
 	public String toString(){

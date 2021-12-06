@@ -73,14 +73,6 @@ public class MovieShowing {
 	public String getShowingDate(){
 		return this.date;
 	}
-	
-	/**
-	 * Return the genre as an integer (1: action, 2: comedy, 3: drama, 4: horror, 5: scifi)
-	 * @return
-	 */
-	public int getGenre() {
-		return this.genre;
-	}
 
 	public String toString(){
 		return title + "\n\t" + date + "\n\t" + "Seats Left: " + numSeats;
