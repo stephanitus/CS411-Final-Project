@@ -1,7 +1,8 @@
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		DatabaseManager db = new DatabaseManager();	
 		Scanner userInput = new Scanner(System.in);
 
@@ -15,7 +16,7 @@ public class Main {
 		userInput.close();
 	}
 
-	public static void runUserMenu(DatabaseManager db, Customer c){
+	public static void runUserMenu(DatabaseManager db, Customer c) throws FileNotFoundException {
 		Scanner userInput = new Scanner(System.in);
 
 		//User option dialogue
@@ -39,12 +40,29 @@ public class Main {
 				input = userInput.nextInt();
 				if(input != 0){
 					//Update customer pending ticket count and add movieticket to database
-					if(0 < input && input < db.getShowings().size()){
+					
+					if(0 < input && input <= db.getShowings().size()){
 						MovieShowing m = db.getMovieShowing(input);
-						m.seatSold();
-						c.incrementPendingShowings();
-						db.addMovieTicket(new MovieTicket(m, c));
-						db.writeChanges();
+						System.out.println("Select number of tickets to purchase (otherwise enter 0): ");
+						input = userInput.nextInt();
+						
+						if (input > 0) {
+							if (input > m.numSeats) {
+								System.out.println("Not enough seats remaining");
+							} else {
+								m.seatSold(input);
+								for (int j = 0; j < input; j++) {
+									Random generator = new Random();
+									long ticketID = 10000000 + generator.nextLong();
+									MovieTicket soldTicket = new MovieTicket(ticketID, m, c);
+									db.addMovieTicket(soldTicket);
+									c.updateStatistics(soldTicket);
+									db.writeChanges();
+								}
+							}
+						}
+						
+						
 					}else{
 						System.out.println("Invalid selection");
 					}
@@ -53,16 +71,39 @@ public class Main {
 			case 2:
 				//Load customer's purchased tickets
 				List<MovieTicket> tickets = db.getMovieTickets();
+				List<MovieTicket> customerTickets = new ArrayList<MovieTicket>();
 				if(!tickets.isEmpty()){
 					for(MovieTicket t : tickets){
 						if(t.getOwner().getUserID() == c.getUserID()){
 							//Print ticket info
 							System.out.println(t.getShowing().toString());
+							customerTickets.add(t);
+						}
+					}
+					
+					System.out.println("If you would like to delete a ticket, enter corresponding ticket number (otherwise enter 0): ");
+					input = userInput.nextInt();
+					if(input != 0){
+						//Update customer pending ticket count and remove movieticket to database
+						if(0 < input && input <= customerTickets.size()){
+							MovieTicket tickettoDelete = customerTickets.get(input-1);
+							tickettoDelete.showing.seatCancelled();
+							c.cancelTicket(tickettoDelete);
+							db.removeMovieTicket(tickettoDelete);
+							
+							db.writeChanges();
+							//db.removeFromTickets(tickettoDelete.getTicketID());
+							
+
+						}else{
+							System.out.println("Invalid selection");
 						}
 					}
 				}else{
 					System.out.println("You have no purchased tickets.");
 				}
+				
+				
 				break;
 			case 3:
 				//Load general user info
@@ -110,7 +151,11 @@ public class Main {
 
 			//Give user ID and store in database
 			Random generator = new Random();
+
+		
+
 			long customerID = 10000000 + generator.nextLong() % 9000000L;
+
 			Customer c = new Customer(username, customerID, creditCard, 0, 0, 0, 0);
 			db.addNewCustomer(c);
 			db.writeChanges();
@@ -125,8 +170,8 @@ public class Main {
 				if(Boolean.TRUE.equals(db.userExists(ID))){
 					//Login complete
 					Customer c = db.getCustomer(ID);
-					db.addNewCustomer(c);
-					db.writeChanges();
+					//db.addNewCustomer(c);
+					//db.writeChanges();
 					System.out.println("Login Complete! Welcome");
 					return c;
 				}else{

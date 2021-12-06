@@ -5,11 +5,11 @@ public class Customer {
 	String paymentInfo;
 	float hoursWatched;
 	int genresWatched;
-	int loyaltyPoints;
+	float loyaltyPoints;
 	int pendingShowings;
 	
 	//Create a new customer profile
-	public Customer(String username, long userID, String paymentInfo, float hoursWatched, int genresWatched, int loyaltyPoints, int pendingShowings) {
+	public Customer(String username, long userID, String paymentInfo, float hoursWatched, int genresWatched, float loyaltyPoints, int pendingShowings) {
 		this.username = username;
 		this.userID = userID;
 		this.paymentInfo = paymentInfo;
@@ -19,13 +19,24 @@ public class Customer {
 		this.pendingShowings = pendingShowings;
 	}
 
-	public void incrementPendingShowings(){
+	/**
+	 * Update the customer statistics after a ticket was purchased.
+	 * @param ticket
+	 */
+	public void updateStatistics(MovieTicket ticket) {
 		pendingShowings++;
+		hoursWatched+=ticket.getShowing().getMovieLength();
+		loyaltyPoints+= ticket.getShowing().getPrice();
 	}
 	
-	//Cancel from any active tickets
-	public void cancelTicket(int ticketID) {
-		//TBI
+	/**
+	 * Update the customer statistics after a ticket was cancelled
+	 * @param ticket
+	 */
+	public void cancelTicket(MovieTicket ticket) {
+		pendingShowings--;
+		hoursWatched -= ticket.getShowing().getMovieLength();
+		loyaltyPoints -= ticket.getShowing().getPrice();
 	
 	}
 
