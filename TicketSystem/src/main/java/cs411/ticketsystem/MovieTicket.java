@@ -30,4 +30,9 @@ public class MovieTicket {
 				showing.getShowingDate() + "\n" +
 				owner.getUserID() + "\n";
 	}
+
+	public String toString(){
+		return  showing.getTitle() + "\n" +
+				showing.getShowingDate();
+	}
 }

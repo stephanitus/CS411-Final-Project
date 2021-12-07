@@ -1,5 +1,9 @@
 package cs411.ticketsystem;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class MovieShowing {
 	
 	String title;
@@ -20,8 +24,27 @@ public class MovieShowing {
 	}
 
 	/**
+	 * Returns a list of newly generated MovieTicket
+	 * @param numOfTickets Number of tickets that the user wants to purchase
+	 * @param owner The person that is purchasing the tickets
+	 * @return		A List of object type MovieTicket
+	 */
+	public List<MovieTicket> generateTickets (int numOfTickets, Customer owner) {
+		// New ArrayList to hold generated tickets
+		ArrayList<MovieTicket> generatedTickets = new ArrayList<MovieTicket>();
+		// Generates Tickets numOfTickets times
+		for (int i = numOfTickets; i > 0; i--) {
+			Random generator = new Random();
+			long ticketID = 10000000L + generator.nextLong() % 90000000L;
+			MovieTicket newTicket = new MovieTicket(ticketID, this, owner);
+			generatedTickets.add(newTicket);
+		}
+		return generatedTickets;
+	}
+
+	/**
 	 * Decrease the number of available seats in the movie showing in order to indicate a certain number of sold seats
-	 * @param seats
+	 * @param seats Number of seats/tickets that the Customer purchased
 	 */
 	public void seatSold(int seats){
 		this.numSeats-=seats;
@@ -83,7 +106,7 @@ public class MovieShowing {
 	}
 
 	public String toString(){
-		return title + "\n\t" + date + "\n\t" + "Seats Left: " + numSeats;
+		return title + "\n\t" + date + "\n\t" + "Seats Left: " + numSeats + "\n\t" + "Price: $" + price;
 	}
 
 	public String toDataString(){
