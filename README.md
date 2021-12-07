@@ -11,4 +11,10 @@
 
     cd bin
     
+    Powershell users:
+    
     ./app
+    
+    CMD users:
+    
+    app
