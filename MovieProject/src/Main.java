@@ -1,5 +1,8 @@
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+
+
 
 public class Main {
 	public static void main(String[] args) throws FileNotFoundException {
@@ -7,8 +10,9 @@ public class Main {
 		Scanner userInput = new Scanner(System.in);
 
 		int userType = privilegeMenu(userInput);
-		Customer c = loginMenu(userInput, db);
+		
 		if(userType == 1){
+			Customer c = loginMenu(userInput, db);
 			runUserMenu(db, c);
 		}else if(userType == 2){
 			runAdminMenu(db);
@@ -73,11 +77,13 @@ public class Main {
 				List<MovieTicket> tickets = db.getMovieTickets();
 				List<MovieTicket> customerTickets = new ArrayList<MovieTicket>();
 				if(!tickets.isEmpty()){
+					int i2 = 1;
 					for(MovieTicket t : tickets){
 						if(t.getOwner().getUserID() == c.getUserID()){
 							//Print ticket info
-							System.out.println(t.getShowing().toString());
+							System.out.println("" + i2 + ".   " + t.toString());
 							customerTickets.add(t);
+							i2++;
 						}
 					}
 					
@@ -185,12 +191,85 @@ public class Main {
 	public static void runAdminMenu(DatabaseManager db){
 		System.out.println("Input root password: ");
 		Scanner userInput = new Scanner(System.in);
+		
 		//Hardcoded admin password
 		String truePass = "123456";
-		String input = userInput.nextLine().strip();
-		if(truePass.equals(input)){
+		String inputP = userInput.nextLine().strip();
+		if(truePass.equals(inputP)){
 			//Grant entrance
 			System.out.println("Welcome root user!");
+			
+			boolean done = false;
+			while(!done){
+				System.out.println("----------------------------------------------");
+				System.out.println("What would you like to do?\n1. Browse Movie Showings\n2. Add Movie Showing \n3. Exit");
+				int input = userInput.nextInt();
+				switch(input){
+				case 1:
+					//Print all movie showings
+					List<MovieShowing> showingsList = db.getShowings();
+					int i = 1;
+					for (MovieShowing m : showingsList){
+						System.out.println("" + i + ". " + m.toString());
+						i++;
+					}
+					
+					break;
+				case 2:
+					
+					String movieName;
+					int numSeats;
+					Date date;
+					String outputDate;
+					int movieLength;
+					int movieGenre;
+					float price;
+					
+						System.out.println("Enter movie name");
+						userInput.nextLine();
+						movieName = userInput.nextLine();
+						
+				
+						System.out.println("Enter number of seats");
+						numSeats = userInput.nextInt();	
+						System.out.println("Enter movie length (minutes)");
+						movieLength = userInput.nextInt();
+						System.out.println("Enter showing date (MM/dd/yyyy HOUR:MINUTE AM/PM) ex: (12/01/2021 5:30PM)");
+						String dateString;
+						SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mmaa");
+			            try{
+			            	userInput.nextLine();
+			            	dateString = userInput.nextLine();
+			                date = formatter.parse(dateString.strip());
+			                outputDate = formatter.format(date);
+			            }catch(Exception e){
+			                System.out.println("date error");
+			                break;
+			            }
+						
+						System.out.println("Enter movie genre: (1: action, 2: comedy, 3: drama, 4: horror, 5: scifi)");
+						movieGenre = userInput.nextInt();
+						System.out.println("Enter price:");
+						price = userInput.nextFloat();
+						
+						//Create a new movie showing and insert to db
+						MovieShowing showingToInsert = new MovieShowing(movieName, numSeats, outputDate, movieLength, movieGenre, price);
+						db.addShowing(showingToInsert);
+						db.writeChanges();
+					
+					
+					
+					
+					break;
+				case 3:
+					done = true;
+					break;
+					
+				default:
+					System.out.println("Invalid input");
+				}
+			}
+			
 		}else{
 			System.out.println("Invalid password");
 		}

@@ -17,13 +17,11 @@ public class DatabaseManager {
     private ArrayList<MovieShowing> movieShowings;
     private ArrayList<MovieTicket> movieTickets;
     private ArrayList<Customer> customers;
-    private ArrayList<Administrator> administrators;
 
     public DatabaseManager() {
         this.movieShowings = new ArrayList<>();
         this.movieTickets = new ArrayList<>();
         this.customers = new ArrayList<>();
-        this.administrators = new ArrayList<>();
         try{
             readAll();
         }catch(FileNotFoundException e){
@@ -114,18 +112,7 @@ public class DatabaseManager {
             movieTickets.add(ticket);
         }
         
-        //Load administrator table from disk (maybe removed)
-        reader = new Scanner(new File("./data/administrators.txt"));
-        while(reader.hasNext()){
-        	//Read in 2 lines
-            String username = reader.nextLine().strip();
-            long adminID = Long.parseLong(reader.nextLine().strip());
-            
-            //Add administrator to memory
-            Administrator administrator = new Administrator(username, adminID);
-            administrators.add(administrator);
-        }
-        reader.close();
+        
     }
 
     public void writeChanges(){
@@ -159,50 +146,7 @@ public class DatabaseManager {
         }
     }
     
-    //TO REMOVE
-    /**
-     * Takes in one ticketID and removes the corresponding ticket from movietickets.txt
-     * @param ticketID
-     * @throws FileNotFoundException
-     */
-    public void removeFromTickets(long ticketID) throws FileNotFoundException {
-    	Scanner reader = new Scanner(new File("./data/movietickets.txt"));
-    	try {
-    		BufferedWriter writer = new BufferedWriter(new FileWriter("./data/movietickets.txt"));
-    	
-        while(reader.hasNext()){
-            // Read in ticket ID
-        	long readTicketID = Long.parseLong(reader.nextLine().strip());
-        	//Skip next 3 lines if ID matches ID to delete
-        	if (readTicketID == ticketID) {
-        		for (int i = 0; i < 3; i++) {
-        			reader.nextLine();
-        		}
-        		if (reader.hasNext()) {
-        			readTicketID = Long.parseLong(reader.nextLine().strip());
-        		}
-        	}
-        	if (reader.hasNext()) {
-        	writer.append(String.valueOf(readTicketID));
-            String title = reader.nextLine().strip();
-            writer.append("\n"+title);
-            String date = reader.nextLine().strip();
-            writer.append("\n"+date);
-            long userID = Long.parseLong(reader.nextLine().strip());
-            writer.append("\n"+String.valueOf(userID));
-        	}
-        }
-        writer.close();
-    	} catch (IOException e) {
-    		System.out.println("Write failure");
-    	}
-    	//delete and rename movieTickets.txt file
-    	File toDelete = new File("./data/movietickets.txt");
-    	toDelete.delete();
-    	new File("./data/movieticketsupdated.txt").renameTo(new File("./data/movietickets.txt"));
-        
-	        
-        }
+  
     
 
     /***************

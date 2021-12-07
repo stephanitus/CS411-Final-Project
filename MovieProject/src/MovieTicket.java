@@ -23,6 +23,10 @@ public class MovieTicket {
 		return showing;
 	}
 
+	public String toString() {
+		return	showing.getTitle() + "\n" + 
+				showing.getShowingDate();
+	}
 	public String toDataString(){
 		return 	ticketID + "\n" +
 				showing.getTitle() + "\n" + 
