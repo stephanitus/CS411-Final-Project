@@ -231,6 +231,7 @@ public class DatabaseManager {
     public void addMovieTickets(List<MovieTicket> tickets) {
         for (MovieTicket t : tickets) {
             movieTickets.add(t);
+            t.getOwner().updateStatistics(t);
             t.getShowing().seatSold(1);
         }
     }
