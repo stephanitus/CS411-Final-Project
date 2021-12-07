@@ -10,8 +10,6 @@
     cd image
 
     cd bin
-    
-    ./app
 
     Powershell users:
 
