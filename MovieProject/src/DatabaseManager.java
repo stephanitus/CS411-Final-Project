@@ -289,6 +289,7 @@ public class DatabaseManager {
      */
     public void removeShowing(MovieShowing showing) {
     	movieShowings.remove(showing);
+    }
     
     public void setActiveUser(Customer user) {
     	this.activeUser = user;

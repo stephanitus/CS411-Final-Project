@@ -111,7 +111,8 @@ public class SceneController implements Initializable {
 			String creditCard = CreditInfo.getText();
 			Random generator = new Random();
 			long customerID = 10000000L + generator.nextLong() % 90000000L;
-			Customer customer = new Customer(username, customerID, creditCard, 0, 0, 0, 0);
+			int[] genresWatched = {0, 0, 0, 0, 0};
+			Customer customer = new Customer(username, customerID, creditCard, 0, genresWatched, 0, 0);
 			db.addNewCustomer(customer);
 			db.setActiveUser(customer);
 			db.writeChanges();
@@ -128,6 +129,14 @@ public class SceneController implements Initializable {
 			}
 		}
 		
+		Parent root = FXMLLoader.load(getClass().getResource("UserMenuScene.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	public void returnToUserMenuScene(ActionEvent event) throws IOException{
 		Parent root = FXMLLoader.load(getClass().getResource("UserMenuScene.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);

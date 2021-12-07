@@ -1,3 +1,5 @@
+package src;
+
 import java.io.FileNotFoundException;
 import java.util.*;
 
@@ -19,6 +21,7 @@ public class Main extends Application{
 			Parent root = FXMLLoader.load(getClass().getResource("UserSelectScene.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
+			primaryStage.setTitle("Movie Ticket Booking System");
 			primaryStage.show();
 			
 		}catch(Exception e) {
