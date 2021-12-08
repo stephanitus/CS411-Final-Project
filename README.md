@@ -1,5 +1,7 @@
 # CS411-Final-Project
 
+Developed in IntelliJ IDEA
+
 ## Dependencies
 
 Gradle, JavaFX, JDK16+
