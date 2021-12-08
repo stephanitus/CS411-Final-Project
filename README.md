@@ -1,5 +1,9 @@
 # CS411-Final-Project
 
+## Dependencies
+
+Gradle, JavaFX, JDK16+
+
 ## Directions
 
 1. Open terminal
